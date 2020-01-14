@@ -1,0 +1,10 @@
+:root {
+    --border-color: #e3e3e3;
+    --subtle-text-color: #a9a9a9;
+    --header-color: #f8f8f8;
+}
+
+.CodeBubble {
+    display: block;
+    margin-bottom: 8px;
+}
