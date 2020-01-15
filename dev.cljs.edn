@@ -1,8 +1,0 @@
-^{;; config figwheel
-  :css-dirs            ["resources/public/css"]
-  :open-file-command   "scripts/open-file.sh"
-  :load-warninged-code true
-  }
-
-{:main         utopia.core
- :source-paths []}
