@@ -15,7 +15,7 @@
 
  :dev-http          {8080 "public"}
 
- ;; allow to open error messages with a link in InteliJ
+ ;; allow to open error messages with a link in IntelliJ
  :open-file-command ["idea" :pwd "--line" :line :file]
 
  :builds            {:frontend

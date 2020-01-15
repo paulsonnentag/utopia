@@ -4,6 +4,7 @@ public/js
 /target
 /checkouts
 /src/gen
+/src/main/libs/bundle.js
 
 pom.xml
 pom.xml.asc
