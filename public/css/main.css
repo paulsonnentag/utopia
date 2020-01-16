@@ -1,7 +1,82 @@
+:root {
+    --n0: #fafafa;
+    --n1: #f5f5f5;
+    --n2: #eeeeee;
+    --n3: #e0e0e0;
+    --error: #e57373;
+}
+
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('../assets/JetBrainsMono-Regular.woff2') format('woff2'),
+    url('../assets/JetBrainsMono-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* overrides */
+
+html {
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+/* fix resizing for flex-box */
+* {
+    min-width: 0;
+}
+
+body {
+    background: var(--n0);
+    margin: 0;
+}
+
+/* code mirror */
+
+.codemirror-line {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+}
+
+.codemirror-focused {
+    outline: none !important;
+}
+
+/* app */
+
 .CodeBubble {
+    display: flex;
+    align-items: flex-start;
+    margin: 8px;
+    margin-bottom: 0;
+}
+
+.CodeBubble:last-child {
+    margin-bottom: 8px;
+}
+
+.CodeBubble__Content {
     width: 50%;
-    background: #eaeaea;
+    background: var(--n1);
     border-radius: 5px;
-    margin-top: 8px;
     padding: 8px;
+    overflow: auto;
+    border: 1px solid var(--n2);
+}
+
+.CodeBubble__Content.unsaved-changes {
+    border: 1px dashed var(--n3);
+}
+
+.CodeBubble__Content.unsaved-changes {
+    border: 1px dashed var(--n3);
+}
+
+.CodeBubble__Preview {
+    margin-left: 32px;
+    width: 50%;
 }

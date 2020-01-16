@@ -12,6 +12,10 @@
                      :db/valueType   :db.type/string
                      :db/cardinality :db.cardinality/one}
 
+                    {:db/ident       :code-bubble/unsaved-value
+                     :db/valueType   :db.type/string
+                     :db/cardinality :db.cardinality/one}
+
                     {:code-bubble/value "(defn add [a b] (+ a b))"}
                     {:code-bubble/value "(defn hello-view [name] [:div (str \"Hello\" name)])"}
                     ])
@@ -31,8 +35,16 @@
 
 (defonce conn (d/create-conn (get-schema initial-facts)))
 
-
 ;; ACTIONS
+
+(defn update-code-bubble-value [conn code-bubble-id value]
+  (p/transact! conn [[:db/add code-bubble-id :code-bubble/unsaved-value value]]))
+
+(defn save-code-bubble [conn code-bubble-id]
+  (let [{value :code-bubble/unsaved-value} @(p/pull conn [:code-bubble/unsaved-value] code-bubble-id)]
+    (if (not (nil? value))
+      (p/transact! conn [[:db.fn/retractAttribute code-bubble-id :code-bubble/unsaved-value]
+                         [:db/add code-bubble-id :code-bubble/value value]]))))
 
 (defn retract-entities [conn entity-ids]
   (let [retractions (map (fn [entity-id]
@@ -43,12 +55,21 @@
 
 ;; VIEWS
 
-(defn code-bubble-view [conn code-bubble-id]
-  (let [code-bubble @(p/pull conn '[:code-bubble/value] code-bubble-id)
-        value (:code-bubble/value code-bubble)]
-    [:div.CodeBubble
-     [:code-editor {:value value :handler #(print "handle something")}]]))
+(defn code-editor [attr]
+  [(r/adapt-react-class (aget js/window "codeMirror" "CodeEditor")) attr])
 
+(defn code-bubble-view [conn code-bubble-id]
+  (let [{value         :code-bubble/value
+         unsaved-value :code-bubble/unsaved-value}
+        @(p/pull conn '[:code-bubble/value :code-bubble/unsaved-value] code-bubble-id)]
+    [:div.CodeBubble
+     [:div.CodeBubble__Content
+      {:class [(if (and (not (nil? unsaved-value)) (not= unsaved-value value)) :unsaved-changes)]}
+      (code-editor
+        {:value     value
+         :on-change #(update-code-bubble-value conn code-bubble-id %)
+         :on-save #(save-code-bubble conn code-bubble-id)})]
+     [:pre.CodeBubble__Preview value unsaved-value]]))
 
 (defn code-bubbles-view [conn]
   (let [code-bubbles @(p/q '[:find ?code-bubble
