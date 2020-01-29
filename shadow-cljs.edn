@@ -1,23 +1,17 @@
-;; shadow-cljs configuration
-{:source-paths
-                    ["src/dev"
-                     "src/main"
-                     "src/test"]
+{:source-paths ["src"]
+ :dependencies []
+ :deps         true
+ :dev-http     {8080 "target/"}
+ :builds       {:utopia
+                {:output-dir "target/"
+                 :asset-path "."
+                 :target     :browser
+                 :modules    {:main {:init-fn utopia.core/init!}}
+                 :devtools   {:after-load utopia.core/reload!}}
 
- :dependencies      [[reagent "0.9.0-rc4"]
-                     [denistakeda/posh "0.5.8"]
-                     [com.bhauman/figwheel-main "0.2.0"]
-                     [com.bhauman/rebel-readline-cljs "0.1.4"]
-                     [datascript "0.18.7"]]
-
- :nrepl             {:port       9000
-                     :middleware []}
-
- :dev-http          {8080 "public"}
-
- ;; allow to open error messages with a link in IntelliJ
- :open-file-command ["idea" :pwd "--line" :line :file]
-
- :builds            {:frontend
-                     {:target  :browser
-                      :modules {:main {:init-fn utopia.core/init}}}}}
+                :todo
+                {:output-dir "target/"
+                 :asset-path "."
+                 :target     :browser
+                 :modules    {:todo {:init-fn utopia.examples.todo/init!}}
+                 :devtools   {:after-load utopia.examples.todo/reload!}}}}

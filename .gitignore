@@ -1,11 +1,8 @@
 node_modules/
 public/js
-
 /target
 /checkouts
 /src/gen
-/src/main/libs/bundle.js
-
 pom.xml
 pom.xml.asc
 *.iml
@@ -16,6 +13,8 @@ pom.xml.asc
 .lein-*
 .nrepl-*
 .DS_Store
-
 .hgignore
 .hg/
+.cpcache
+*.d.ts
+*.d.ts.map

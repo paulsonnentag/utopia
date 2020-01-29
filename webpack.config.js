@@ -3,18 +3,21 @@ const path = require('path');
 module.exports = {
     watch: true,
     mode: 'development',
-    entry: path.join(__dirname, 'src/main/libs/codemirror.jsx'),
+    entry: path.join(__dirname, 'libs/codemirror.tsx'),
     output: {
-        path: path.join(__dirname, 'src/main/libs'),
+        path: path.join(__dirname, 'target'),
         filename: 'bundle.js'
     },
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
-                exclude: /node_modules\/(?!(@codemirror\/next)\/).*/,
-                use: 'babel-loader'
-            }
-        ]
-    }
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/,
+            },
+        ],
+    },
+    resolve: {
+        extensions: [ '.tsx', '.ts', '.js' ],
+    },
 };
